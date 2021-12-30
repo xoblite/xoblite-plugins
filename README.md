@@ -3,4 +3,4 @@ The source code of my plugins for xoblite™ and other Blackbox for Windows® br
 
 Matching binary downloads can be found at http://xoblite.net/docs/plugins/.
 
-=== ...UNDER CONSTRUCTION, STAY TUNED... ===
+=== THIS PAGE IS UNDER CONSTRUCTION ===
