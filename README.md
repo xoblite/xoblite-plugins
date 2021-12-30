@@ -1,2 +1,4 @@
 # xoblite-plugins
-Plugins for xoblite / Blackbox for Windows
+Plugins for xoblite™ and other Blackbox for Windows® branches, to further supercharge your desktop.
+
+=== UNDER CONSTRUCTION, STAY TUNED... ===
