@@ -5,7 +5,7 @@ Matching binary downloads can be found at http://xoblite.net/docs/plugins/.
 
 **=== THIS PAGE IS UNDER CONSTRUCTION ===**
 
-Last but not least, like most developers I love getting some (positive) feedback every now and then, so if you
+Last but not least, like most developers I love getting some (positive ;)) feedback every now and then, so if you
 like this plugin *PLEASE* tell me!!! My email address is as follows (change applicable parts of the address):
 
                        qwilk_AT_xoblite_DOT_net
