@@ -1,0 +1,57 @@
+=========================================================================================
+ xControlRGB-Corsair -> RGB HW integration plugin -> xoblite bb5 and later
+ Copyright © 2020 Karl Henrik Henriksson [qwilk/@xoblite]
+ http://xoblite.net/ + https://github.com/xoblite/
+=========================================================================================
+
+xControlRGB-Corsair is a plugin that integrates your Corsair iCUE compatible RGB HW
+with the *box experience, by replicating select colours from your current style onto your
+physical HW (e.g. keyboard, mouse, mouse pad...) == stepping out of the box, literally! :D
+
+The plugin will automatically use the first non-parentRelative style element in the following order:
+toolbar.windowLabel -> toolbar.clock -> toolbar.label ->
+-> menu.grip -> menu.active/hilite -> menu.title ->
+-> toolbar -> menu.frame.
+
+It will also respond to dynamic style changes triggered by the xoblite Designer Mode,
+i.e. it is possible to "paint" colours directly onto both *box elements and the RGB HW... =]
+
+Quick start:
+(1) Download the latest release of this plugin from http://xoblite.net/.
+(2) Unzip the plugin .zip file to a folder of your choice (e.g. typically a new subfolder within your plugins folder).
+(3) Put the included CUE SDK redistributable CUESDK_2013.dll into the same folder as Blackbox.exe
+    (alternatively, you can always download the latest CUE SDK from https://github.com/CorsairOfficial/cue-sdk ).
+(4) Make sure that "Enable SDK" is enabled in the Corsair iCUE SW settings
+    (if you're using an old version, you can always download the latest iCUE version from https://www.corsair.com/icue ).
+(5) Load the plugin by regular means, e.g. via the menu or drag'n'drop of the .dll to the Desktop.
+Done!
+
+Last but not least, like most developers I love getting some (positive) feedback every now and then, so if you
+like this plugin *PLEASE* tell me!!! My email address is as follows (change applicable parts of the address):
+
+                       qwilk_AT_xoblite_DOT_net
+
+Please note that due to a severe lack of time, my response time may be in the range "poor" to "infinity",
+however I'll try my best to reply to your email(s). Just don't expect too much... :|
+
+Alternatively, you can also tag me on Twitter (@xoblite #xoblite) and perhaps star me on GitHub. Thanks! =]
+
+Enjoy! :D
+
+BR//Karl aka qwilk/@xoblite
+
+=========================================================================================
+
+ xControlRGB-Corsair 1.0 (2020-10-10) / qwilk
+	- Original release
+
+=========================================================================================
+
+#### CORSAIR, iCUE/CUE etc are trademarks of Corsair Gaming, Inc., Fremont, CA, USA. ####
+
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+=========================================================================================

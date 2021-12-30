@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{94eb70f8-4109-45ca-bd26-1ba6db6dd0ca}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="xControlRGB-Corsair.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="xControlRGB-Corsair.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="xControlRGB-Corsair.txt" />
+  </ItemGroup>
+</Project>
