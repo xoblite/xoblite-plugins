@@ -1,4 +1,4 @@
-# xoblite plugins
+# xoblite™ plugins
 This repository contains the source code of some of my plugins for xoblite™ and other Blackbox for Windows® branches.
 
 Matching binary downloads can be found at http://xoblite.net/shell/plugins/.
