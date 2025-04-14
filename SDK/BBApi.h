@@ -1,7 +1,7 @@
 /*
  ============================================================================
- xoblite -> an advanced "extended shell" for Microsoft Windows 10
- Copyright © 2002-2021 Karl Henrik Henriksson [qwilk/@xoblite]
+ xoblite™ -> an advanced "extended shell" for Microsoft® Windows® 10/11
+ Copyright © 2002-2025 Karl Henrik Henriksson [qwilk/@xoblite]
  Copyright © 2001-2004 The Blackbox for Windows Development Team
  http://xoblite.net/ + https://github.com/xoblite/
  ============================================================================
@@ -54,6 +54,7 @@
 #endif
 
 #include <windows.h>
+#include <winnt.h>
 #include <stdio.h>
 
 //===========================================================================
@@ -106,6 +107,17 @@
 #define BEVEL_SUNKEN 2
 #define BEVEL1 1
 #define BEVEL2 2
+
+// BImage: Glyph types
+#define GLYPH_MENU_EMPTY 0
+#define GLYPH_MENU_SQUARE 1
+
+#define GLYPH_WINDOW_SHADE 101
+#define GLYPH_WINDOW_PIN 102
+#define GLYPH_WINDOW_ALWAYSONTOP 103
+#define GLYPH_WINDOW_MINIMIZE 104
+#define GLYPH_WINDOW_MAXIMIZE 105
+#define GLYPH_WINDOW_CLOSE 106
 
 //====================
 
@@ -217,6 +229,7 @@
 //#define BBRG_FOLDER  (1<<7)
 #define BBRG_SLIT    (1<<8)
 #define BBRG_DOCK BBRG_SLIT
+#define BBRG_HARDWARE (1<<16)
 
 //#define BB_EXECUTEASYNC		10882	// (definition reserved by bbLean?)
 //#define BB_DESKCLICK			10884	// (definition reserved by bbLean? -> Desktop clicked, lParam: 0=leftdown 1=left, 2=right, 3=mid, 4=x1, 5=x2, 6=x3 ?)
@@ -231,15 +244,17 @@
 
 #define BB_BROADCAST			10901	// Broadcast messages (bro@m -> the bang killah! :D <vbg>)
 
+#define BB_TRAYICONMESSAGE		10999	// System messages targeting xoblite's own tray icon
+
 //====================
 
-#define SLIT_ADD				11001	// Dock (nb. formerly known as the "slit", hence the naming here) plugin docking messages
-#define SLIT_REMOVE				11002
-#define SLIT_UPDATE				11003
+#define DOCK_ADD				11001	// Dock (nb. formerly known as the "slit") plugin docking messages
+#define DOCK_REMOVE				11002
+#define DOCK_UPDATE				11003
 
-#define DOCK_ADD SLIT_ADD
-#define DOCK_REMOVE SLIT_REMOVE
-#define DOCK_UPDATE SLIT_UPDATE
+#define SLIT_ADD DOCK_ADD
+#define SLIT_REMOVE DOCK_REMOVE
+#define SLIT_UPDATE DOCK_UPDATE
 
 //====================
 
@@ -344,7 +359,7 @@ enum
     ,SN_NEWMETRICS				// bool (not a pointer)
 
 	//===============================================
-	// + Stuff added later by bb/C/Lean/Zero/Mod...
+	// + Stuff added later by bb/C/Lean/Zero/Mod...?
 	// ########### WORK IN PROGRESS / TBD ###########
 	//===============================================
 
@@ -359,7 +374,7 @@ enum
     ,SN_LAST
 };
 
-#define SN_HANDLEHEIGHT SN_HANDLEWIDTH // ...used by BBZero? (see enum above)
+#define SN_HANDLEHEIGHT SN_HANDLEWIDTH // ...used by BBZero? (see enum above) + SN_HANDLEHEIGHT matches the corresponding bb4nix window.handleHeight definition
 
 //===========================================================================
 //===========================================================================
@@ -490,7 +505,6 @@ extern "C"
 
 	DLL_EXPORT FILE *FileOpen(LPCSTR fileName);
 	DLL_EXPORT bool FileClose(FILE *filePointer);
-
 	DLL_EXPORT bool FileRead(FILE *filePointer, LPSTR readString);
 
 	int GetParentFolder(LPSTR path);
@@ -524,8 +538,8 @@ extern "C"
 
 	int ParseDropFiles(HWND hwnd, WPARAM wParam);
 
-	bool CopyStringToClipboard(LPSTR string);
-	bool RetrieveStringFromClipboard(LPSTR target);
+	DLL_EXPORT bool CopyStringToClipboard(LPSTR string);
+	DLL_EXPORT bool RetrieveStringFromClipboard(LPSTR target);
 
 	//====================
 
@@ -536,7 +550,7 @@ extern "C"
 
 	// ###########################################################################################################
 	// ### PRELIMINARY: Intended as an *internal* helper function to MakeGradientEvolved() and DrawTextEvolved(), see below! ###
-	StyleItem* FindStyleElement(LPSTR styleElement);
+	StyleItem* FindStyleElement(LPSTR styleElement); // Not to be exported! (*internal* helper function to MakeGradientEvolved() and DrawTextEvolved())
 	// ### PRELIMINARY: Intended to provide better isolation/abstraction than MakeStyleGradient by not passing pointers to unreliable (e.g. non version-handled) SI structs etc. ###
 	DLL_EXPORT bool MakeGradientEvolved(HDC hdc, RECT rect, LPSTR styleElement, bool drawBevel, bool drawBorder);
 	// ### PRELIMINARY: Intended as the "DrawText" companions to MakeGradientEvolved(), see above! ###
@@ -567,6 +581,11 @@ extern "C"
 	DLL_EXPORT void DrawTextWithEffects(HDC hdc, RECT r, LPSTR text, unsigned int format, COLORREF textColor, bool outline, COLORREF outlineColor, bool shadow, COLORREF shadowColor, int shadowX, int shadowY);
 	void DrawTextWithEffectsUnicode(HDC hdc, RECT r, LPWSTR text, unsigned int format, COLORREF textColor, bool outline, COLORREF outlineColor, bool shadow, COLORREF shadowColor, int shadowX, int shadowY);
 	DLL_EXPORT void DrawSatHueIcon(HDC hdc, RECT r, HICON icon, int size, int saturation, int hue);
+
+	// ##########################################################################################################
+	// ### PRELIMINARY: DPI-adaptive common glyphs drawing function, introduced in xoblite bb5 RC6!  ###
+	DLL_EXPORT void DrawGlyph(HDC hdc, RECT r, int glyph, COLORREF glyphColor);
+	// ##########################################################################################################
 
 	//====================
 
@@ -636,7 +655,8 @@ extern "C"
 	//====================
 
 	// Support for external system trays (e.g. BBTray)
-	// ### Note: Deprecated in xoblite bb5 with the removal of the tray subsystem (note: now always running on top of Explorer!), kept for basic API compatibility with legacy plugins but "returns nothing". ###
+	// ### Note: Deprecated in xoblite bb5 with the removal of the tray subsystem (note: now always running on top of Explorer!),
+	// kept for basic API compatibility with legacy plugins but "returns nothing". ###
 
 	typedef struct
 	{
